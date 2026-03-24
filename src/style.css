@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  margin: 0;
+  padding: 0;
+}
+
+.splitpanes--vertical > .splitpanes__splitter {
+  background-color: var(--color-border);
+}
+
+@theme {
+  /*--color-background: hsl(40 20% 97%);*/
+  --color-empty: #909399;
+  --color-card: hsl(0 0% 100%);
+  --color-border: hsl(220 15% 88%);
+  --color-muted-foreground: hsl(220 10% 50%);
+  --container-2xl: 1400px;
+}
+
+@utility container {
+  margin-inline: auto;           /* 自动居中 */
+  padding-inline: 1rem;          /* 默认左右 padding */
+  /* 你可以加响应式 */
+  @media (min-width: 640px) {
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    padding-inline: 2rem;
+  }
+}
