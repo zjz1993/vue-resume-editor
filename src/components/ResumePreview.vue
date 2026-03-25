@@ -1,28 +1,17 @@
 <script lang="ts" setup>
 import { useResumeStore } from '../store/resume.ts'
 import { storeToRefs } from 'pinia'
-import { computed, ref } from 'vue'
-import { useElementSize } from '@vueuse/core'
+import { computed, type Ref, ref } from 'vue'
+import { marked } from 'marked'
+import useCalcScaleValue from '../hook/useCalcScaleValue.ts'
+import type { EducationInfo } from '../types/resume.ts'
+import dayjs from 'dayjs'
 
 const resumeStore = useResumeStore()
 const { resume } = storeToRefs(resumeStore)
+const education = computed(() => resume.value.education || []) as Ref<EducationInfo[]>
 const previewPane = ref<HTMLElement | null>(null)
-
-// 获取预览区实际可用宽度（减去 padding）
-const { width: paneWidth } = useElementSize(previewPane)
-
-// 计算最佳缩放比例（让 A4 内容尽量占满预览区，但不超过 1）
-const previewScale = computed(() => {
-  if (!paneWidth.value) return 1
-
-  // 210mm ≈ 793.7px（在标准 96dpi 下）
-  const a4WidthPx = 210 * (96 / 25.4) // 精确转换 mm → px
-  const availableWidth = paneWidth.value - 40 // 减去左右留白
-
-  // 缩放比例：不超过 1（避免放大失真），且留一点边距
-  let scale = (availableWidth / a4WidthPx) * 0.95
-  return Math.min(Math.max(scale, 0.4), 1.2) // 限制范围
-})
+const { previewScale } = useCalcScaleValue({ previewPane })
 
 // 把 scale 绑定到 CSS 变量
 const scaleStyle = computed(() => ({
@@ -44,6 +33,23 @@ const contact = computed(() => {
   }
   return res.join(' | ')
 })
+const computedEducationDate = computed(() => {
+  return (edu: EducationInfo) => {
+    const { startDate, endDate, isDuration } = edu
+    if ((!startDate && !endDate) || !startDate) {
+      return ''
+    }
+    const endDateStr = isDuration ? '至今' : endDate ? dayjs(endDate).format('YYYY年MM月DD') : ''
+    return endDateStr
+      ? `${dayjs(startDate).format('YYYY年MM月DD')}-${endDateStr}`
+      : `${dayjs(startDate).format('YYYY年MM月DD')}`
+  }
+})
+const renderedHtml = computed(() => {
+  return (val: string) => {
+    return marked(val)
+  }
+})
 </script>
 <template>
   <div ref="previewPane" :style="scaleStyle" class="resume-preview-wrapper">
@@ -53,13 +59,19 @@ const contact = computed(() => {
       <div v-if="contact" class="contact">
         <div>{{ contact }}</div>
       </div>
-
-      <h2 class="section-title">教育背景</h2>
-      <div class="job-title">计算机科学与技术 学士</div>
-      <div>清华大学　<span class="date">2017.09 - 2021.06</span></div>
-      <ul>
-        <li>GPA：3.7/4.0　主修课程：数据结构、算法、操作系统、计算机网络</li>
-      </ul>
+      <template v-if="education.length > 0">
+        <h2 class="section-title">教育背景</h2>
+        <div v-for="edu in education">
+          <div class="job-title">{{ edu.major }} {{ edu.degree }}</div>
+          <div>
+            <span>{{ edu.school }}</span>
+            <span v-if="computedEducationDate(edu)" class="date">
+              {{ computedEducationDate(edu) }}
+            </span>
+          </div>
+          <div v-if="edu.description" v-html="renderedHtml(edu.description)" />
+        </div>
+      </template>
 
       <h2 class="section-title">工作经历</h2>
 
@@ -167,7 +179,6 @@ const contact = computed(() => {
       font-style: italic;
     }
     .date {
-      float: right;
       color: #666;
       font-size: 13px;
     }

@@ -38,7 +38,7 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { useResumeStore } from '../store/resume.ts'
+import { useResumeStore } from '@/store/resume.ts'
 import { storeToRefs } from 'pinia'
 import { Iphone, Message, User } from '@element-plus/icons-vue'
 

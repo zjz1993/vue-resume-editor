@@ -30,10 +30,8 @@ const handleClick = (val: string) => {
               <ResumeEditor />
             </div>
           </Pane>
-          <Pane :size="50" min-size="30">
-            <div class="sticky top-20 self-start">
-              <ResumePreview />
-            </div>
+          <Pane :size="50" class="sticky top-20" min-size="30">
+            <ResumePreview />
           </Pane>
         </Splitpanes>
       </div>

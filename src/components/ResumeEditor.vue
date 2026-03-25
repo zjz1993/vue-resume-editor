@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 import type { CollapseModelValue } from 'element-plus'
-import { User } from '@element-plus/icons-vue'
+import { User, Notebook } from '@element-plus/icons-vue'
 import BasicInfoEditor from './BasicInfoEditor.vue'
 import EducationInfoEditor from './EducationInfoEditor.vue'
 
@@ -28,7 +28,7 @@ const handleChange = (val: CollapseModelValue) => {
     <el-collapse-item name="educationInfo">
       <template #title>
         <div class="flex items-center gap-2">
-          <el-icon><User /></el-icon>
+          <el-icon><Notebook /></el-icon>
           教育背景
         </div>
       </template>

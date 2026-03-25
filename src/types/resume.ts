@@ -8,12 +8,15 @@ export interface EducationInfo {
   school: string
   degree: string
   major: string
-  startYear: number
-  endYear: number
+  startDate: string
+  endDate?: string
   isDuration: boolean
   description?: string
 }
+export type ArrayKeys<T> = {
+  [K in keyof T]: T[K] extends any[] ? K : never
+}[keyof T]
 export interface ResumeData {
   personalInfo: BasicInfo
-  education?: Partial<EducationInfo[]>
+  education: EducationInfo[]
 }
