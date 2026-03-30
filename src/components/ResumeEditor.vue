@@ -3,8 +3,9 @@ import { ref } from 'vue'
 
 import type { CollapseModelValue } from 'element-plus'
 import { User, Notebook } from '@element-plus/icons-vue'
-import BasicInfoEditor from './BasicInfoEditor.vue'
-import EducationInfoEditor from './EducationInfoEditor.vue'
+import BasicInfoEditor from '@/components/BasicInfoEditor.vue'
+import EducationInfoEditor from '@/components/EducationInfoEditor.vue'
+import WorkInfoEditor from '@/components/WorkInfoEditor.vue'
 
 const activeNames = ref(['basicInfo'])
 const handleChange = (val: CollapseModelValue) => {
@@ -29,10 +30,19 @@ const handleChange = (val: CollapseModelValue) => {
       <template #title>
         <div class="flex items-center gap-2">
           <el-icon><Notebook /></el-icon>
-          教育背景
+          教育经历
         </div>
       </template>
       <EducationInfoEditor />
+    </el-collapse-item>
+    <el-collapse-item name="workInfo">
+      <template #title>
+        <div class="flex items-center gap-2">
+          <el-icon><Notebook /></el-icon>
+          工作经历
+        </div>
+      </template>
+      <WorkInfoEditor />
     </el-collapse-item>
   </el-collapse>
 </template>

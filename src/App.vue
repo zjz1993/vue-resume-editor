@@ -3,6 +3,7 @@ import { Pane, Splitpanes } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import Header from './components/Header.vue'
 import { ref } from 'vue'
+import { AnimatePresence, motion } from 'motion-v'
 import ResumeEditor from './components/ResumeEditor.vue'
 import ResumePreview from './components/ResumePreview.vue'
 
@@ -11,9 +12,6 @@ const options = ref([
   { label: '编辑', value: 'edit' },
   { label: '预览', value: 'preview' }
 ])
-const handleClick = (val: string) => {
-  console.log(val)
-}
 </script>
 
 <template>
@@ -21,7 +19,23 @@ const handleClick = (val: string) => {
     <Header />
     <div class="container py-6 px-4">
       <div class="lg:hidden custom-style w-full">
-        <el-segmented v-model="value" :options="options" class="w-full inline-flex" />
+        <el-segmented v-model="value" :options="options" class="w-full inline-flex mb-[16px]" />
+        <AnimatePresence mode="wait">
+          <motion.div
+            :key="value"
+            :animate="{ opacity: 1, x: 0 }"
+            :exit="{ opacity: 0, x: -50 }"
+            :initial="{ opacity: 0, x: 50 }"
+            :transition="{ duration: 0.35, ease: 'easeOut' }"
+          >
+            <template v-if="value === 'edit'">
+              <ResumeEditor />
+            </template>
+            <template v-else>
+              <ResumePreview />
+            </template>
+          </motion.div>
+        </AnimatePresence>
       </div>
       <div class="hidden lg:flex lg:grid-cols-2">
         <Splitpanes class="w-full lg:gap-8">

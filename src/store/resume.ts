@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { ArrayKeys, EducationInfo, ResumeData } from '../types/resume.ts'
+import type { ArrayKeys, EducationInfo, ItemOf, ResumeData } from '../types/resume.ts'
 
 export const useResumeStore = defineStore('resume', () => {
   const resume = ref<ResumeData>({
@@ -8,38 +8,42 @@ export const useResumeStore = defineStore('resume', () => {
       name: '',
       mobile: ''
     },
-    education: []
+    education: [],
+    work: []
   })
-  function deleteEducation(id: string) {
-    const educationArray = resume.value.education || []
-    const index = educationArray.findIndex((e) => (e as EducationInfo).id === id)
+  function deleteArrayByField<K extends ArrayKeys<ResumeData>>(key: K, id: string) {
+    const array = resume.value[key] || []
+    const index = array.findIndex((e) => (e as EducationInfo).id === id)
     if (index > -1) {
-      educationArray.splice(index, 1)
+      array.splice(index, 1)
     }
   }
 
-  function updateEducation(education: EducationInfo, id?: string) {
-    console.log('updateEducation触发', education, id)
-    const educationArray = resume.value.education || []
+  function updateEducation<K extends ArrayKeys<ResumeData>>(key: K, info: ItemOf<K>, id?: string) {
+    const array = resume.value[key] as unknown as ItemOf<K>[] // 👈 关键点
+
     if (id === undefined) {
-      resume.value.education = [...educationArray, education]
+      array.push(info) // ✅ 不报错
+      return
     }
-    const index = educationArray.findIndex((e) => (e as EducationInfo).id === id)
+
+    const index = array.findIndex((e) => e.id === id)
+
     if (index !== -1) {
-      educationArray[index] = education
+      array[index] = info // ✅ OK
     } else {
-      educationArray.push(education)
+      array.push(info) // ✅ OK
     }
   }
 
-  function updateArrayByField<K extends ArrayKeys<ResumeData>>(field: K, array: ResumeData[K]) {
-    resume.value[field] = [...array]
+  function updateArrayByField<K extends ArrayKeys<ResumeData>>(field: K, array: ItemOf<K>[]) {
+    resume.value[field] = [...array] as unknown as ResumeData[K]
   }
 
   return {
     resume,
     updateEducation,
-    deleteEducation,
+    deleteArrayByField,
     updateArrayByField
   }
 })
