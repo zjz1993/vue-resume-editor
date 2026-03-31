@@ -11,6 +11,7 @@
 
 @theme {
   /*--color-background: hsl(40 20% 97%);*/
+  --color-blue: #0082fc;
   --color-empty: #909399;
   --color-card: hsl(0 0% 100%);
   --color-border: hsl(220 15% 88%);

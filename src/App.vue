@@ -6,12 +6,11 @@ import { ref } from 'vue'
 import { AnimatePresence, motion } from 'motion-v'
 import ResumeEditor from './components/ResumeEditor.vue'
 import ResumePreview from './components/ResumePreview.vue'
+import { mobileSegmentOptions } from '@/const/index.ts'
+import useInitRecoverResume from '@/hook/useInitRecoverResume.ts'
 
 const value = ref('edit')
-const options = ref([
-  { label: '编辑', value: 'edit' },
-  { label: '预览', value: 'preview' }
-])
+useInitRecoverResume()
 </script>
 
 <template>
@@ -19,7 +18,11 @@ const options = ref([
     <Header />
     <div class="container py-6 px-4">
       <div class="lg:hidden custom-style w-full">
-        <el-segmented v-model="value" :options="options" class="w-full inline-flex mb-[16px]" />
+        <el-segmented
+          v-model="value"
+          :options="mobileSegmentOptions"
+          class="w-full inline-flex mb-[16px]"
+        />
         <AnimatePresence mode="wait">
           <motion.div
             :key="value"

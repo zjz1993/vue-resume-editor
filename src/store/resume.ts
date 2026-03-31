@@ -39,9 +39,13 @@ export const useResumeStore = defineStore('resume', () => {
   function updateArrayByField<K extends ArrayKeys<ResumeData>>(field: K, array: ItemOf<K>[]) {
     resume.value[field] = [...array] as unknown as ResumeData[K]
   }
+  function recoverResume(data: ResumeData) {
+    resume.value = data
+  }
 
   return {
     resume,
+    recoverResume,
     updateEducation,
     deleteArrayByField,
     updateArrayByField

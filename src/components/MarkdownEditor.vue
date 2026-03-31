@@ -12,6 +12,7 @@ const toolbars = [
   'bold',
   'italic',
   'strike',
+  'underline',
   'header',
   'quote',
   'list',

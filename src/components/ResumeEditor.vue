@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import type { CollapseModelValue } from 'element-plus'
+import { type CollapseModelValue } from 'element-plus'
 import { User, Notebook } from '@element-plus/icons-vue'
 import BasicInfoEditor from '@/components/BasicInfoEditor.vue'
 import EducationInfoEditor from '@/components/EducationInfoEditor.vue'
