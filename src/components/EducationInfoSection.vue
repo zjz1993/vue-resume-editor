@@ -2,7 +2,12 @@
   <div class="education-info-section border-border border border-solid rounded-2xl">
     <div :class="['education-info-section__title', { open }]">
       <slot name="drag-handle"></slot>
-      <span class="cursor-pointer" @click="toggle">第{{ education.order + 1 }}段教育经历</span>
+      <span class="cursor-pointer flex items-center gap-2" @click="toggle"
+        >第{{ education.order + 1 }}段教育经历
+        <el-icon :class="{ 'rotate-180': open }" class="transition-transform duration-300">
+          <ArrowDown />
+        </el-icon>
+      </span>
       <div class="cursor-pointer">
         <el-icon @click="props.onDelete(education.id)">
           <Delete class="hover:text-red" />
@@ -85,7 +90,7 @@
 import { motion } from 'motion-v'
 import type { EducationInfo } from '@/types/resume'
 import { reactive, ref, toRef, watch } from 'vue'
-import { Delete } from '@element-plus/icons-vue'
+import { ArrowDown, Delete } from '@element-plus/icons-vue'
 import { useResumeStore } from '@/store/resume'
 import MarkdownEditor from '@/components/MarkdownEditor.vue'
 import { marked } from 'marked'
