@@ -7,13 +7,13 @@ interface InfoBaseType {
   id: string
 }
 export interface EducationInfo extends InfoBaseType {
-  id: string
   school: string
   degree: string
   major: string
   startDate: string
   endDate?: string
   isDuration: boolean
+  order: number
   description?: string
 }
 export interface WorkInfo extends InfoBaseType {

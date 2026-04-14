@@ -9,7 +9,7 @@
         :exit="{ opacity: 0, scale: 0.6, y: 0 }"
         :initial="{ opacity: 0, scale: 0.8, y: 0 }"
         :transition="{ duration: 0.35, ease: 'easeOut' }"
-        class="rounded-xl border-border border border-solid p-2 mb-4"
+        class="mb-4"
         layout
       >
         <EducationInfoSection
@@ -76,6 +76,7 @@ function addEducation() {
     degree: '',
     startDate: '',
     endDate: '',
+    order: educationList.value.length,
     isDuration: false
   })
 }

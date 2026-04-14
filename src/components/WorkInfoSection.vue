@@ -82,7 +82,7 @@ const handleOnChange = async (val: string) => {
   workForm.description = await marked(val)
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .education-info-section {
   background: white;
   &__title {
