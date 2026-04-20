@@ -45,7 +45,7 @@ const { resume } = storeToRefs(resumeStore)
 
 // 再从 resume 中解构出 education（依然保持响应式）
 
-const [parent, workList] = useDragAndDrop<WorkInfo>(
+const [_, workList] = useDragAndDrop<WorkInfo>(
   resume.value.work, // 初始数组（支持响应式）
   {
     onDragend: (data) => {

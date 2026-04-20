@@ -1,7 +1,7 @@
 <template>
   <div v-if="educationList.length === 0" class="text-empty">请添加教育背景</div>
   <div v-else ref="parent">
-    <AnimatePresence>
+    <AnimatePresence :initial="false">
       <motion.div
         v-for="edu in educationList"
         :key="edu.id"
@@ -57,11 +57,10 @@ const [parent, educationList] = useDragAndDrop<EducationInfo>(
 )
 
 watch(
-  () => resume,
-  (value, oldValue) => {
-    // 如果外部修改了数组，这里同步回去
-    if (isEqual(value.value.education, oldValue.value.education)) {
-      educationList.value = [...value.value.education]
+  () => resume.value.education,
+  (newEducation) => {
+    if (!isEqual(newEducation, educationList.value)) {
+      educationList.value = [...newEducation]
     }
   },
   { deep: true }

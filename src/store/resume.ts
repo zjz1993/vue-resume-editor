@@ -40,6 +40,7 @@ export const useResumeStore = defineStore('resume', () => {
     resume.value[field] = [...array] as unknown as ResumeData[K]
   }
   function recoverResume(data: ResumeData) {
+    console.log('recoverResume data是', data)
     resume.value = data
   }
 
